@@ -229,7 +229,7 @@ export const resizeWindow: Action<HTMLDivElement, { id: number; enabled: boolean
 	function setEnabled(state: boolean) {
 		if (state && grabbers.length === 0) {
 			directions.forEach(createGrabber);
-		} else if (!state) {
+		} else {
 			destroyGrabbers();
 		}
 	}

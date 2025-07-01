@@ -1,3 +1,4 @@
+import type { Action } from 'svelte/action';
 import { windows } from '../stores/windows.svelte';
 
 export function closeWindow(id: number) {
@@ -24,7 +25,7 @@ export function maximizeWindow(id: number) {
 	}
 }
 
-export function resizeWindow(element: HTMLElement) {
+export const resizeWindow: Action = (node) => {
 	const directions = [
 		'east',
 		'west',
@@ -58,7 +59,7 @@ export function resizeWindow(element: HTMLElement) {
 		);
 
 		grabber.addEventListener('pointerdown', onPointerDown);
-		element.appendChild(grabber);
+		node.appendChild(grabber);
 		grabbers.push(grabber);
 	}
 
@@ -154,7 +155,7 @@ export function resizeWindow(element: HTMLElement) {
 		activeDirection = target.dataset.direction as Direction;
 		if (!activeDirection) return;
 
-		initialRect = element.getBoundingClientRect();
+		initialRect = node.getBoundingClientRect();
 		initialPos = { x: event.clientX, y: event.clientY };
 
 		document.addEventListener('pointermove', onPointerMove);
@@ -168,18 +169,18 @@ export function resizeWindow(element: HTMLElement) {
 		const deltaY = event.clientY - initialPos.y;
 
 		if (activeDirection.includes('east')) {
-			element.style.width = `${initialRect.width + deltaX}px`;
+			node.style.width = `${initialRect.width + deltaX}px`;
 		}
 		if (activeDirection.includes('west')) {
-			element.style.width = `${initialRect.width - deltaX}px`;
-			element.style.left = `${initialRect.left + deltaX}px`;
+			node.style.width = `${initialRect.width - deltaX}px`;
+			node.style.left = `${initialRect.left + deltaX}px`;
 		}
 		if (activeDirection.includes('south')) {
-			element.style.height = `${initialRect.height + deltaY}px`;
+			node.style.height = `${initialRect.height + deltaY}px`;
 		}
 		if (activeDirection.includes('north')) {
-			element.style.height = `${initialRect.height - deltaY}px`;
-			element.style.top = `${initialRect.top + deltaY}px`;
+			node.style.height = `${initialRect.height - deltaY}px`;
+			node.style.top = `${initialRect.top + deltaY}px`;
 		}
 	}
 
@@ -198,8 +199,8 @@ export function resizeWindow(element: HTMLElement) {
 		destroy() {
 			grabbers.forEach((grabber) => {
 				grabber.removeEventListener('pointerdown', onPointerDown);
-				element.removeChild(grabber);
+				node.removeChild(grabber);
 			});
 		}
 	};
-}
+};

@@ -25,7 +25,7 @@ export function maximizeWindow(id: number) {
 	}
 }
 
-export const resizeWindow: Action = (node) => {
+export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = true) => {
 	const directions = [
 		'east',
 		'west',

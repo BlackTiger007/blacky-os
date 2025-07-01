@@ -45,11 +45,23 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 
 	const grabbers: HTMLElement[] = [];
 
+	// Optionale Mindestgrößen in px
+	const minWidth = 200;
+	const minHeight = 100;
+	// Höhe der Taskleiste in px (z.B. 56)
+	const taskbarHeight = 56;
+
 	function createGrabber(direction: Direction) {
 		const grabber = document.createElement('div');
 		grabber.dataset.direction = direction;
 
-		grabber.classList.add('absolute', 'bg-gray-600/30', 'z-50', ...getDirectionClasses(direction));
+		grabber.classList.add(
+			'absolute',
+			'bg-gray-600/30',
+			'z-50',
+			'user-select-none',
+			...getDirectionClasses(direction)
+		);
 
 		grabber.addEventListener('pointerdown', onPointerDown);
 		node.appendChild(grabber);
@@ -146,20 +158,39 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 		const deltaX = event.clientX - initialPos.x;
 		const deltaY = event.clientY - initialPos.y;
 
+		const screenWidth = window.innerWidth;
+		const screenHeight = window.innerHeight - taskbarHeight;
+
+		let newWidth = initialRect.width;
+		let newHeight = initialRect.height;
+		let newLeft = initialRect.left;
+		let newTop = initialRect.top;
+
 		if (activeDirection.includes('east')) {
-			node.style.width = `${initialRect.width + deltaX}px`;
+			newWidth = Math.min(
+				Math.max(initialRect.width + deltaX, minWidth),
+				screenWidth - initialRect.left
+			);
 		}
 		if (activeDirection.includes('west')) {
-			node.style.width = `${initialRect.width - deltaX}px`;
-			node.style.left = `${initialRect.left + deltaX}px`;
+			newWidth = Math.min(Math.max(initialRect.width - deltaX, minWidth), initialRect.right);
+			newLeft = Math.min(Math.max(initialRect.left + deltaX, 0), initialRect.right - minWidth);
 		}
 		if (activeDirection.includes('south')) {
-			node.style.height = `${initialRect.height + deltaY}px`;
+			newHeight = Math.min(
+				Math.max(initialRect.height + deltaY, minHeight),
+				screenHeight - initialRect.top
+			);
 		}
 		if (activeDirection.includes('north')) {
-			node.style.height = `${initialRect.height - deltaY}px`;
-			node.style.top = `${initialRect.top + deltaY}px`;
+			newHeight = Math.min(Math.max(initialRect.height - deltaY, minHeight), initialRect.bottom);
+			newTop = Math.min(Math.max(initialRect.top + deltaY, 0), initialRect.bottom - minHeight);
 		}
+
+		node.style.width = `${newWidth}px`;
+		node.style.height = `${newHeight}px`;
+		node.style.left = `${newLeft}px`;
+		node.style.top = `${newTop}px`;
 	}
 
 	function onPointerUp() {
@@ -187,7 +218,6 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 		}
 	}
 
-	// initial
 	setEnabled(enabled);
 
 	return {

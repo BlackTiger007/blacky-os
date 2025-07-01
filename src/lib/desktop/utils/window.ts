@@ -25,7 +25,15 @@ export function maximizeWindow(id: number) {
 	}
 }
 
-export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = true) => {
+export const resizeWindow: Action<HTMLDivElement, { id: number; enabled: boolean }> = (
+	node,
+	{ id, enabled = true }
+) => {
+	const win = windows.find((w) => w.id === id);
+	if (!win) {
+		console.warn(`Window with id ${id} not found for resizing.`);
+		return;
+	}
 	const directions = [
 		'east',
 		'west',
@@ -191,6 +199,14 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 		node.style.height = `${newHeight}px`;
 		node.style.left = `${newLeft}px`;
 		node.style.top = `${newTop}px`;
+
+		// Update the window size in the store
+		if (win) {
+			win.size.width = newWidth;
+			win.size.height = newHeight;
+			win.position.x = newLeft;
+			win.position.y = newTop;
+		}
 	}
 
 	function onPointerUp() {
@@ -221,8 +237,8 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 	setEnabled(enabled);
 
 	return {
-		update(newEnabled: boolean) {
-			setEnabled(newEnabled);
+		update({ enabled }) {
+			setEnabled(enabled);
 		},
 		destroy() {
 			destroyGrabbers();

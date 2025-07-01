@@ -1,6 +1,12 @@
 <script lang="ts">
 	import type { MyWindow } from '../types/window';
-	import { closeWindow, maximizeWindow, minimizeWindow, resizeWindow } from '../utils/window';
+	import {
+		closeWindow,
+		maximizeWindow,
+		minimizeWindow,
+		moveWindow,
+		resizeWindow
+	} from '../utils/window';
 
 	let { win }: { win: MyWindow } = $props();
 
@@ -29,7 +35,10 @@
 		? `top: ${win.position.y}px; left: ${win.position.x}px; width: ${win.size.width}px; height: ${win.size.height}px;`
 		: ''}
 >
-	<div class="flex items-center justify-between bg-gray-800">
+	<div
+		class="flex items-center justify-between bg-gray-800 select-none"
+		use:moveWindow={{ id: win.id, enabled: !win.minimized && !win.maximized }}
+	>
 		<span>{win.title}</span>
 		<div>
 			<button class="btn btn-square btn-ghost" onclick={minimize}>🗕</button>

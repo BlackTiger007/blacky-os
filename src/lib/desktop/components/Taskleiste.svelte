@@ -4,15 +4,23 @@
 	import { onMount, onDestroy } from 'svelte';
 
 	type Ausrichtung = 'links' | 'mitte' | 'rechts';
-	let { ausrichtung = 'mitte' }: { ausrichtung: Ausrichtung } = $props();
+
+	let {
+		ausrichtung = 'mitte',
+		showSeconds = false
+	}: { ausrichtung: Ausrichtung; showSeconds: boolean } = $props();
 
 	let date = $state(new Date());
 	let interval: ReturnType<typeof setInterval>;
 
+	function updateTime() {
+		date = new Date();
+	}
+
 	onMount(() => {
-		interval = setInterval(() => {
-			date = new Date();
-		}, 1000);
+		updateTime();
+		const intervalTime = showSeconds ? 1000 : 60000;
+		interval = setInterval(updateTime, intervalTime);
 	});
 
 	onDestroy(() => {
@@ -33,7 +41,13 @@
 	</div>
 
 	<time class="grid text-right text-xs" datetime={date.toISOString()}>
-		<p>{date.toLocaleTimeString()}</p>
+		<p>
+			{#if showSeconds}
+				{date.toLocaleTimeString()}
+			{:else}
+				{date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+			{/if}
+		</p>
 		<p>{date.toLocaleDateString()}</p>
 	</time>
 </nav>

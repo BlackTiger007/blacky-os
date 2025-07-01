@@ -49,14 +49,7 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 		const grabber = document.createElement('div');
 		grabber.dataset.direction = direction;
 
-		// Gemeinsame Tailwind-Klassen für alle Grabber
-		grabber.classList.add(
-			'absolute',
-			'bg-gray-600/30',
-			'z-50',
-			// Cursor und Position je nach Richtung:
-			...getDirectionClasses(direction)
-		);
+		grabber.classList.add('absolute', 'bg-gray-600/30', 'z-50', ...getDirectionClasses(direction));
 
 		grabber.addEventListener('pointerdown', onPointerDown);
 		node.appendChild(grabber);
@@ -64,89 +57,74 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 	}
 
 	function getDirectionClasses(direction: Direction): string[] {
+		const base = ['bg-gray-600'];
 		switch (direction) {
 			case 'east':
 				return [
+					...base,
 					'w-1.5',
 					'h-full',
 					'right-0',
 					'top-1/2',
 					'-translate-y-1/2',
-					'cursor-ew-resize',
-					'bg-gray-600'
+					'cursor-ew-resize'
 				];
 			case 'west':
 				return [
+					...base,
 					'w-1.5',
 					'h-full',
 					'left-0',
 					'top-1/2',
 					'-translate-y-1/2',
-					'cursor-ew-resize',
-					'bg-gray-600'
+					'cursor-ew-resize'
 				];
 			case 'north':
 				return [
+					...base,
 					'h-1.5',
 					'w-full',
 					'top-0',
 					'left-1/2',
 					'-translate-x-1/2',
-					'cursor-ns-resize',
-					'bg-gray-600'
+					'cursor-ns-resize'
 				];
 			case 'south':
 				return [
+					...base,
 					'h-1.5',
 					'w-full',
 					'bottom-0',
 					'left-1/2',
 					'-translate-x-1/2',
-					'cursor-ns-resize',
-					'bg-gray-600'
+					'cursor-ns-resize'
 				];
 			case 'northwest':
-				return [
-					'w-2.5',
-					'h-2.5',
-					'top-0',
-					'left-0',
-					'cursor-nwse-resize',
-					'bg-gray-600',
-					'rounded-sm'
-				];
+				return [...base, 'w-2.5', 'h-2.5', 'top-0', 'left-0', 'cursor-nwse-resize', 'rounded-sm'];
 			case 'northeast':
-				return [
-					'w-2.5',
-					'h-2.5',
-					'top-0',
-					'right-0',
-					'cursor-nesw-resize',
-					'bg-gray-600',
-					'rounded-sm'
-				];
+				return [...base, 'w-2.5', 'h-2.5', 'top-0', 'right-0', 'cursor-nesw-resize', 'rounded-sm'];
 			case 'southwest':
 				return [
+					...base,
 					'w-2.5',
 					'h-2.5',
 					'bottom-0',
 					'left-0',
 					'cursor-nesw-resize',
-					'bg-gray-600',
 					'rounded-sm'
 				];
 			case 'southeast':
 				return [
+					...base,
 					'w-2.5',
 					'h-2.5',
 					'bottom-0',
 					'right-0',
 					'cursor-nwse-resize',
-					'bg-gray-600',
 					'rounded-sm'
 				];
 			default:
-				return [];
+				return base;
 		}
 	}
 
@@ -193,14 +171,31 @@ export const resizeWindow: Action<HTMLDivElement, boolean> = (node, enabled = tr
 		document.removeEventListener('pointerup', onPointerUp);
 	}
 
-	directions.forEach(createGrabber);
+	function destroyGrabbers() {
+		grabbers.forEach((g) => {
+			g.removeEventListener('pointerdown', onPointerDown);
+			g.remove();
+		});
+		grabbers.length = 0;
+	}
+
+	function setEnabled(state: boolean) {
+		if (state && grabbers.length === 0) {
+			directions.forEach(createGrabber);
+		} else if (!state) {
+			destroyGrabbers();
+		}
+	}
+
+	// initial
+	setEnabled(enabled);
 
 	return {
+		update(newEnabled: boolean) {
+			setEnabled(newEnabled);
+		},
 		destroy() {
-			grabbers.forEach((grabber) => {
-				grabber.removeEventListener('pointerdown', onPointerDown);
-				node.removeChild(grabber);
-			});
+			destroyGrabbers();
 		}
 	};
 };

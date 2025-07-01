@@ -1,28 +1,38 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
+	import MyWindow from '$lib/desktop/components/MyWindow.svelte';
+	import type { MyWindow as TypeWindow } from '$lib/desktop/types/window';
+	import Taskleiste from '$lib/desktop/components/Taskleiste.svelte';
+	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
+	import { windows } from '$lib/desktop/stores/windows.svelte';
 
-	let length = $state(0);
-
-	function resize() {
-		length = Math.trunc(window.innerWidth / 112) * Math.trunc(window.innerHeight / 112);
+	function openSandbox() {
+		const win: TypeWindow = {
+			id: windows.length + 1,
+			title: 'test',
+			component: Sandbox,
+			position: { x: 5, y: 30 },
+			size: { width: 300, height: 900 },
+			minimized: false,
+			maximized: false,
+			fullscreen: false,
+			closable: true,
+			resizable: true,
+			movable: true,
+			visible: true,
+			zIndex: 0
+		};
+		windows.push(win);
 	}
-
-	onMount(() => {
-		resize();
-
-		onresize = () => resize();
-	});
 </script>
 
-<main
-	class="flex h-screen max-h-screen min-h-screen w-full max-w-full min-w-full flex-wrap overflow-hidden"
->
-	{#if browser}
-		{#each { length }, item}
-			<div class="m-auto h-28 w-28 border-2">
-				{item + 1}
-			</div>
-		{/each}
-	{/if}
-</main>
+<div class="h-screen w-screen bg-cover bg-center">
+	{#each windows as win (win.id)}
+		<MyWindow {win} />
+	{/each}
+
+	<Taskleiste ausrichtung="links" />
+
+	<button class="btn btn-primary fixed top-40 right-4" on:click={openSandbox}>
+		Sandbox öffnen
+	</button>
+</div>

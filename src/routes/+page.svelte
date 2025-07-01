@@ -30,7 +30,7 @@
 		<MyWindow {win} />
 	{/each}
 
-	<Taskleiste ausrichtung="links" />
+	<Taskleiste ausrichtung="links" showSeconds={false} />
 
 	<button class="btn btn-primary fixed top-40 right-4" on:click={openSandbox}>
 		Sandbox öffnen

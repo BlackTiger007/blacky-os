@@ -48,6 +48,6 @@
 				{date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
 			{/if}
 		</p>
-		<p>{date.toLocaleDateString()}</p>
+		<p>{date.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
 	</time>
 </nav>

@@ -1,7 +1,7 @@
 import type { Component } from 'svelte';
 
 export type MyWindow = {
-	id: number;
+	id: string;
 	title: string;
 	icon?: string;
 	component: Component;

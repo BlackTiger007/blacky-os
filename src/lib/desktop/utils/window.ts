@@ -1,7 +1,7 @@
 import type { Action } from 'svelte/action';
 import { windows } from '../stores/windows.svelte';
 
-export function closeWindow(id: number) {
+export function closeWindow(id: string) {
 	// finde Index des zu entfernenden Fensters
 	const idx = windows.findIndex((w) => w.id === id);
 	if (idx !== -1) {
@@ -10,7 +10,7 @@ export function closeWindow(id: number) {
 	}
 }
 
-export function minimizeWindow(id: number) {
+export function minimizeWindow(id: string) {
 	const win = windows.find((w) => w.id === id);
 	if (win) {
 		win.minimized = !win.minimized;
@@ -18,14 +18,14 @@ export function minimizeWindow(id: number) {
 	}
 }
 
-export function maximizeWindow(id: number) {
+export function maximizeWindow(id: string) {
 	const win = windows.find((w) => w.id === id);
 	if (win) {
 		win.maximized = !win.maximized;
 	}
 }
 
-export const resizeWindow: Action<HTMLDivElement, { id: number; enabled: boolean }> = (
+export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean }> = (
 	node,
 	{ id, enabled = true }
 ) => {
@@ -246,7 +246,7 @@ export const resizeWindow: Action<HTMLDivElement, { id: number; enabled: boolean
 	};
 };
 
-export const moveWindow: Action<HTMLDivElement, { id: number; enabled: boolean }> = (
+export const moveWindow: Action<HTMLDivElement, { id: string; enabled: boolean }> = (
 	node,
 	options
 ) => {

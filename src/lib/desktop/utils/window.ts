@@ -1,5 +1,6 @@
 import type { Action } from 'svelte/action';
 import { windows } from '../stores/windows.svelte';
+import type { MyWindow } from '../types/window';
 
 export function closeWindow(id: string) {
 	// finde Index des zu entfernenden Fensters
@@ -320,3 +321,12 @@ export const moveWindow: Action<HTMLDivElement, { id: string; enabled: boolean }
 		}
 	};
 };
+
+export function addWindow(params: Omit<MyWindow, 'id'> & Partial<Pick<MyWindow, 'id'>>) {
+	const windowWithId: MyWindow = {
+		...params,
+		id: params.id ?? `window-${windows.length}-${crypto.randomUUID()}`
+	};
+
+	windows.push(windowWithId);
+}

@@ -1,13 +1,12 @@
 <script lang="ts">
 	import MyWindow from '$lib/desktop/components/MyWindow.svelte';
-	import type { MyWindow as TypeWindow } from '$lib/desktop/types/window';
 	import Taskleiste from '$lib/desktop/components/Taskleiste.svelte';
 	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
 	import { windows } from '$lib/desktop/stores/windows.svelte';
+	import { addWindow } from '$lib/desktop/utils/window';
 
 	function openSandbox() {
-		const win: TypeWindow = {
-			id: windows.length + 1,
+		addWindow({
 			title: 'test',
 			component: Sandbox,
 			position: { x: 5, y: 30 },
@@ -20,8 +19,7 @@
 			movable: true,
 			visible: true,
 			zIndex: 0
-		};
-		windows.push(win);
+		});
 	}
 </script>
 

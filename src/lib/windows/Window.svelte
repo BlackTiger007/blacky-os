@@ -1,6 +1,9 @@
 <script lang="ts">
+	import { closeWindow } from './actions/closeWindow';
+	import { maximizeWindow } from './actions/maximizeWindow';
+	import { minimizeWindow } from './actions/minimizeWindow';
+	import { resizeWindow, moveWindow } from './actions/resizeWindow';
 	import type { MyWindow } from './types';
-	import { closeWindow, maximizeWindow, minimizeWindow, moveWindow, resizeWindow } from './utils';
 
 	let { win }: { win: MyWindow } = $props();
 

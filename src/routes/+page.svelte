@@ -3,7 +3,7 @@
 	import Taskleiste from '$lib/desktop/components/Taskleiste.svelte';
 	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
 	import { windows } from '$lib/windows/windowStore.svelte';
-	import { addWindow } from '$lib/windows/utils';
+	import { addWindow } from '$lib/windows/actions/addWindow';
 
 	function openSandbox() {
 		addWindow({

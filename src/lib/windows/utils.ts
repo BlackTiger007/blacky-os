@@ -2,14 +2,6 @@ import type { Action } from 'svelte/action';
 import { windows } from './windowStore.svelte';
 import type { MyWindow } from './types';
 
-export function minimizeWindow(id: string) {
-	const win = windows.find((w) => w.id === id);
-	if (win) {
-		win.minimized = !win.minimized;
-		win.maximized = !win.maximized;
-	}
-}
-
 export function maximizeWindow(id: string) {
 	const win = windows.find((w) => w.id === id);
 	if (win) {

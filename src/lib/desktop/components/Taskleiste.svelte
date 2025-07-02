@@ -2,6 +2,8 @@
 	import { minimizeWindow } from '$lib/windows/actions/minimizeWindow';
 	import { windows } from '../../windows/windowStore.svelte';
 	import { onMount, onDestroy } from 'svelte';
+	import { windowManager } from '$lib/windows/WindowManager.svelte';
+	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
 
 	type Ausrichtung = 'links' | 'mitte' | 'rechts';
 
@@ -15,6 +17,34 @@
 
 	function updateTime() {
 		date = new Date();
+	}
+
+	function addNewWindow() {
+		const screenWidth = window.innerWidth;
+		const screenHeight = window.innerHeight;
+
+		// Zufällige Position innerhalb des Bildschirms, mit Rand
+		const posX = Math.floor(Math.random() * (screenWidth - 400)) + 50;
+		const posY = Math.floor(Math.random() * (screenHeight - 300)) + 50;
+
+		// Zufällige Größe zwischen Minimal- und Maximalwerten
+		const width = Math.floor(Math.random() * (600 - 300)) + 300;
+		const height = Math.floor(Math.random() * (600 - 300)) + 300;
+
+		windowManager.add({
+			title: 'Test Window',
+			component: Sandbox,
+			position: { x: posX, y: posY },
+			size: { width, height },
+			minimized: false,
+			maximized: false,
+			fullscreen: false,
+			closable: true,
+			resizable: true,
+			movable: true,
+			visible: true,
+			zIndex: 0
+		});
 	}
 
 	onMount(() => {
@@ -35,6 +65,7 @@
 		class:justify-center={ausrichtung === 'mitte'}
 		class:justify-end={ausrichtung === 'rechts'}
 	>
+		<button class="btn" onclick={addNewWindow}>New Window</button>
 		{#each windows as win (win.id)}
 			<button class="btn btn-square" onclick={() => minimizeWindow(win.id)}>🗕</button>
 		{/each}

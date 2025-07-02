@@ -46,7 +46,7 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 	}
 
 	function getDirectionClasses(direction: Direction): string[] {
-		const base = ['bg-gray-600'];
+		const base = import.meta.env.DEV ? ['bg-gray-600'] : [];
 		switch (direction) {
 			case 'east':
 				return [

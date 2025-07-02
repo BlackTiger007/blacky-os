@@ -2,7 +2,8 @@
 	import { closeWindow } from './actions/closeWindow';
 	import { maximizeWindow } from './actions/maximizeWindow';
 	import { minimizeWindow } from './actions/minimizeWindow';
-	import { resizeWindow, moveWindow } from './actions/resizeWindow';
+	import { moveWindow } from './actions/moveWindow';
+	import { resizeWindow } from './actions/resizeWindow';
 	import type { MyWindow } from './types';
 
 	let { win }: { win: MyWindow } = $props();

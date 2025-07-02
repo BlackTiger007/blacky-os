@@ -2,13 +2,6 @@ import type { Action } from 'svelte/action';
 import { windows } from './windowStore.svelte';
 import type { MyWindow } from './types';
 
-export function maximizeWindow(id: string) {
-	const win = windows.find((w) => w.id === id);
-	if (win) {
-		win.maximized = !win.maximized;
-	}
-}
-
 export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean }> = (
 	node,
 	{ id, enabled = true }

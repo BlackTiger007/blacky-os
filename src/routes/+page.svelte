@@ -1,9 +1,9 @@
 <script lang="ts">
-	import MyWindow from '$lib/desktop/components/MyWindow.svelte';
+	import MyWindow from '$lib/windows/Window.svelte';
 	import Taskleiste from '$lib/desktop/components/Taskleiste.svelte';
 	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
-	import { windows } from '$lib/desktop/stores/windows.svelte';
-	import { addWindow } from '$lib/desktop/utils/window';
+	import { windows } from '$lib/windows/windowStore.svelte';
+	import { addWindow } from '$lib/windows/utils';
 
 	function openSandbox() {
 		addWindow({

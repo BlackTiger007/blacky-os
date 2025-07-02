@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { windows } from '../stores/windows.svelte';
-	import { minimizeWindow } from '../utils/window';
+	import { windows } from '../../windows/windowStore.svelte';
+	import { minimizeWindow } from '../../windows/utils';
 	import { onMount, onDestroy } from 'svelte';
 
 	type Ausrichtung = 'links' | 'mitte' | 'rechts';

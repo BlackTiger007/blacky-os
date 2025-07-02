@@ -1,6 +1,6 @@
 import type { Action } from 'svelte/action';
-import { windows } from '../stores/windows.svelte';
-import type { MyWindow } from '../types/window';
+import { windows } from './windowStore.svelte';
+import type { MyWindow } from './types';
 
 export function closeWindow(id: string) {
 	// finde Index des zu entfernenden Fensters

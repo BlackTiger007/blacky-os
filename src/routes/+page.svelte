@@ -2,11 +2,11 @@
 	import MyWindow from '$lib/windows/Window.svelte';
 	import Taskleiste from '$lib/desktop/components/Taskleiste.svelte';
 	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
+	import { windowManager } from '$lib/windows/WindowManager.svelte';
 	import { windows } from '$lib/windows/windowStore.svelte';
-	import { addWindow } from '$lib/windows/actions/addWindow';
 
 	function openSandbox() {
-		addWindow({
+		windowManager.add({
 			title: 'test',
 			component: Sandbox,
 			position: { x: 5, y: 30 },

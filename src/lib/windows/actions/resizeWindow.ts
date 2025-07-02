@@ -21,7 +21,6 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 	let activeDirection: Direction | null = null;
 	let initialRect: DOMRect | null = null;
 	let initialPos: { x: number; y: number } | null = null;
-
 	const grabbers: HTMLElement[] = [];
 
 	// Optionale Mindestgrößen in px
@@ -30,10 +29,10 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 	// Höhe der Taskleiste in px (z.B. 56)
 	const taskbarHeight = 56;
 
+	// Grabber für dieses Fenster erzeugen
 	function createGrabber(direction: Direction) {
 		const grabber = document.createElement('div');
 		grabber.dataset.direction = direction;
-
 		grabber.classList.add(
 			'absolute',
 			'bg-gray-600/30',
@@ -41,7 +40,6 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 			'user-select-none',
 			...getDirectionClasses(direction)
 		);
-
 		grabber.addEventListener('pointerdown', onPointerDown);
 		node.appendChild(grabber);
 		grabbers.push(grabber);
@@ -185,7 +183,6 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		activeDirection = null;
 		initialRect = null;
 		initialPos = null;
-
 		document.removeEventListener('pointermove', onPointerMove);
 		document.removeEventListener('pointerup', onPointerUp);
 	}
@@ -198,19 +195,19 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		grabbers.length = 0;
 	}
 
-	function setEnabled(state: boolean) {
-		if (state && grabbers.length === 0) {
-			directions.forEach(createGrabber);
-		} else {
-			destroyGrabbers();
-		}
+	// Initialisieren
+	if (enabled) {
+		directions.forEach(createGrabber);
 	}
 
-	setEnabled(enabled);
-
+	// Rückgabe der Action
 	return {
 		update({ enabled }) {
-			setEnabled(enabled);
+			if (enabled && grabbers.length === 0) {
+				directions.forEach(createGrabber);
+			} else if (!enabled && grabbers.length > 0) {
+				destroyGrabbers();
+			}
 		},
 		destroy() {
 			destroyGrabbers();

@@ -35,7 +35,6 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		grabber.dataset.direction = direction;
 		grabber.classList.add(
 			'absolute',
-			'bg-gray-600/30',
 			'z-50',
 			'user-select-none',
 			...getDirectionClasses(direction)
@@ -46,7 +45,7 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 	}
 
 	function getDirectionClasses(direction: Direction): string[] {
-		const base = import.meta.env.DEV ? ['bg-gray-600'] : [];
+		const base = import.meta.env.PROD ? ['bg-gray-600/30'] : [];
 		switch (direction) {
 			case 'east':
 				return [

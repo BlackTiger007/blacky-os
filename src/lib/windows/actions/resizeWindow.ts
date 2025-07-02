@@ -5,11 +5,6 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 	node,
 	{ id, enabled = true }
 ) => {
-	const win = windows.find((w) => w.id === id);
-	if (!win) {
-		console.warn(`Window with id ${id} not found for resizing.`);
-		return;
-	}
 	const directions = [
 		'east',
 		'west',
@@ -176,7 +171,8 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		node.style.left = `${newLeft}px`;
 		node.style.top = `${newTop}px`;
 
-		// Update the window size in the store
+		// Dynamisch das aktuelle Fenster aus dem Store holen
+		const win = windows.find((w) => w.id === id);
 		if (win) {
 			win.size.width = newWidth;
 			win.size.height = newHeight;

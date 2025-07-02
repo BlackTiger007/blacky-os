@@ -1,38 +1,52 @@
-# sv
+# 🖥️ Blacky-OS
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A modern, web-based desktop operating system built with **SvelteKit** and **TailwindCSS**.  
+Blacky-OS simulates an independent desktop environment inside your browser — featuring a window manager, taskbar, and customizable apps.
 
-## Creating a project
+![GitHub Repo size](https://img.shields.io/github/repo-size/BlackTiger007/blacky-os)
+![GitHub last commit](https://img.shields.io/github/last-commit/BlackTiger007/blacky-os)
+![GitHub License](https://img.shields.io/github/license/BlackTiger007/blacky-os)
+![Project Status](https://img.shields.io/badge/status-in%20development-orange)
 
-If you're seeing this, you've probably already done this step. Congrats!
+## 📸 Preview
+
+🌐 **Live-Demo:** [blacky-os.vercel.app](https://blacky-os.vercel.app)
+
+> ✨ Coming soon: Screenshot or GIF demo of Blacky-OS in action.
+
+## 🚀 Features
+
+- 📦 **Window system** with minimize, maximize, move and resize functionality
+- 🖼️ **Dynamic window components** (external apps and modules can be integrated)
+- 🕑 **Taskbar with live clock**
+- 🔐 **Login system** (planned)
+- 🎨 **Fully themeable via TailwindCSS**
+- 💾 **Local storage for window states and session persistence** (planned)
+
+## 📦 Technologies
+
+- [SvelteKit](https://kit.svelte.dev/)
+- [TailwindCSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Runes](https://github.com/sveltejs/runes)
+- [daisyUI 5](https://github.com/saadeghi/daisyui)
+
+## 🛠️ Installation
 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+git clone https://github.com/BlackTiger007/blacky-os.git
+cd blacky-os
+pnpm install
+pnpm run dev
 ```
 
-## Developing
+Then open `http://localhost:5173` in your browser.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## 🤝 Contributing
 
-```bash
-npm run dev
+Ideas, feature requests, and pull requests are welcome!  
+Feel free to [open an issue](https://github.com/BlackTiger007/blacky-os/issues) to share feedback or suggestions.
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+---
 
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+**Blacky-OS** — the virtual operating system for your browser.

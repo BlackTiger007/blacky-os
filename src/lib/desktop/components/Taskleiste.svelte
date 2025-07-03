@@ -33,7 +33,7 @@
 		const height = Math.floor(Math.random() * (600 - 300)) + 300;
 
 		addWindow({
-			title: 'Test Window W1 ' + windows.length,
+			title: 'Test Window ' + windows.length,
 			component: Sandbox,
 			position: { x: posX, y: posY },
 			size: { width, height }

@@ -60,7 +60,11 @@
 	>
 		<button class="btn" onclick={addNewWindow}>New Window</button>
 		{#each windows as win (win.id)}
-			<button class="btn btn-square" onclick={() => (minimizeWindow(win.id), aktivWindow(win.id))}>
+			<button
+				class="btn"
+				class:btn-active={win.aktiv}
+				onclick={() => (minimizeWindow(win.id), aktivWindow(win.id))}
+			>
 				🗕
 			</button>
 		{/each}

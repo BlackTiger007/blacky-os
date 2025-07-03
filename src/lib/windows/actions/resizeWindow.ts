@@ -21,15 +21,16 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 	let activeDirection: Direction | null = null;
 	let initialRect: DOMRect | null = null;
 	let initialPos: { x: number; y: number } | null = null;
+	let newWidth = 0;
+	let newHeight = 0;
+	let newLeft = 0;
+	let newTop = 0;
 	const grabbers: HTMLElement[] = [];
 
-	// Optionale Mindestgrößen in px
 	const minWidth = 200;
 	const minHeight = 100;
-	// Höhe der Taskleiste in px (z.B. 56)
 	const taskbarHeight = 56;
 
-	// Grabber für dieses Fenster erzeugen
 	function createGrabber(direction: Direction) {
 		const grabber = document.createElement('div');
 		grabber.dataset.direction = direction;
@@ -124,6 +125,11 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		initialRect = node.getBoundingClientRect();
 		initialPos = { x: event.clientX, y: event.clientY };
 
+		newWidth = initialRect.width;
+		newHeight = initialRect.height;
+		newLeft = initialRect.left;
+		newTop = initialRect.top;
+
 		document.addEventListener('pointermove', onPointerMove);
 		document.addEventListener('pointerup', onPointerUp);
 	}
@@ -136,11 +142,6 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 
 		const screenWidth = window.innerWidth;
 		const screenHeight = window.innerHeight - taskbarHeight;
-
-		let newWidth = initialRect.width;
-		let newHeight = initialRect.height;
-		let newLeft = initialRect.left;
-		let newTop = initialRect.top;
 
 		if (activeDirection.includes('east')) {
 			newWidth = Math.min(
@@ -167,21 +168,23 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		node.style.height = `${newHeight}px`;
 		node.style.left = `${newLeft}px`;
 		node.style.top = `${newTop}px`;
-
-		// Dynamisch das aktuelle Fenster aus dem Store holen
-		const win = windows.find((w) => w.id === id);
-		if (win) {
-			win.size.width = newWidth;
-			win.size.height = newHeight;
-			win.position.x = newLeft;
-			win.position.y = newTop;
-		}
 	}
 
 	function onPointerUp() {
+		if (activeDirection) {
+			const win = windows.find((w) => w.id === id);
+			if (win) {
+				win.size.width = newWidth;
+				win.size.height = newHeight;
+				win.position.x = newLeft;
+				win.position.y = newTop;
+			}
+		}
+
 		activeDirection = null;
 		initialRect = null;
 		initialPos = null;
+
 		document.removeEventListener('pointermove', onPointerMove);
 		document.removeEventListener('pointerup', onPointerUp);
 	}
@@ -194,12 +197,10 @@ export const resizeWindow: Action<HTMLDivElement, { id: string; enabled: boolean
 		grabbers.length = 0;
 	}
 
-	// Initialisieren
 	if (enabled) {
 		directions.forEach(createGrabber);
 	}
 
-	// Rückgabe der Action
 	return {
 		update({ enabled }) {
 			if (enabled && grabbers.length === 0) {

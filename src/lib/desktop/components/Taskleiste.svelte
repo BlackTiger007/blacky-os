@@ -6,7 +6,8 @@
 	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
 	import { aktivWindow } from '$lib/windows/actions/aktivWindow';
 
-	type Ausrichtung = 'links' | 'mitte' | 'rechts';
+	export const AUSRICHTUNG = ['links', 'mitte', 'rechts'] as const;
+	type Ausrichtung = (typeof AUSRICHTUNG)[number];
 
 	let {
 		ausrichtung = 'mitte',
@@ -14,21 +15,15 @@
 	}: { ausrichtung: Ausrichtung; showSeconds: boolean } = $props();
 
 	let date = $state(new Date());
-	let interval: ReturnType<typeof setInterval>;
-
-	function updateTime() {
-		date = new Date();
-	}
+	let interval: ReturnType<typeof setInterval> | undefined;
 
 	function addNewWindow() {
 		const screenWidth = window.innerWidth;
 		const screenHeight = window.innerHeight;
 
-		// Zufällige Position innerhalb des Bildschirms, mit Rand
 		const posX = Math.floor(Math.random() * (screenWidth - 400)) + 50;
 		const posY = Math.floor(Math.random() * (screenHeight - 300)) + 50;
 
-		// Zufällige Größe zwischen Minimal- und Maximalwerten
 		const width = Math.floor(Math.random() * (600 - 300)) + 300;
 		const height = Math.floor(Math.random() * (600 - 300)) + 300;
 
@@ -41,9 +36,7 @@
 	}
 
 	onMount(() => {
-		updateTime();
-		const intervalTime = showSeconds ? 1000 : 60000;
-		interval = setInterval(updateTime, intervalTime);
+		interval = setInterval(() => (date = new Date()), showSeconds ? 1000 : 60000);
 	});
 
 	onDestroy(() => {
@@ -77,7 +70,7 @@
 		{/each}
 	</div>
 
-	<button>
+	<div class="select-none">
 		<time class="grid text-right text-xs" datetime={date.toISOString()}>
 			<p>
 				{#if showSeconds}
@@ -88,5 +81,5 @@
 			</p>
 			<p>{date.toLocaleDateString([], { day: '2-digit', month: '2-digit', year: 'numeric' })}</p>
 		</time>
-	</button>
+	</div>
 </nav>

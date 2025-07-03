@@ -2,7 +2,7 @@
 	import { minimizeWindow } from '$lib/windows/actions/minimizeWindow';
 	import { windows } from '../../windows/windowStore.svelte';
 	import { onMount, onDestroy } from 'svelte';
-	import { windowManager } from '$lib/windows/WindowManager.svelte';
+	import { addWindow } from '$lib/windows/actions/addWindow';
 	import Sandbox from '$lib/desktop/apps/Sandbox.svelte';
 
 	type Ausrichtung = 'links' | 'mitte' | 'rechts';
@@ -31,19 +31,11 @@
 		const width = Math.floor(Math.random() * (600 - 300)) + 300;
 		const height = Math.floor(Math.random() * (600 - 300)) + 300;
 
-		windowManager.add({
-			title: 'Test Window',
+		addWindow({
+			title: 'Test Window W1 ' + windows.length,
 			component: Sandbox,
 			position: { x: posX, y: posY },
-			size: { width, height },
-			minimized: false,
-			maximized: false,
-			fullscreen: false,
-			closable: true,
-			resizable: true,
-			movable: true,
-			visible: true,
-			zIndex: 0
+			size: { width, height }
 		});
 	}
 

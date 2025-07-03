@@ -14,5 +14,6 @@ export type MyWindow = {
 	resizable: boolean;
 	movable: boolean;
 	visible: boolean;
+	aktiv: boolean;
 	zIndex: number;
 };

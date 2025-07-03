@@ -19,6 +19,7 @@ export function addWindow(
 			resizable: true,
 			movable: true,
 			visible: true,
+			aktiv: true,
 			zIndex: 1
 		},
 		rest

@@ -1,11 +1,11 @@
 import { highestZIndex, windows } from '../windowStore.svelte';
 import type { MyWindow } from '../types';
+import { aktivWindow } from './aktivWindow';
 
 export function addWindow(
 	params: Partial<Omit<MyWindow, 'component'>> & Pick<MyWindow, 'component'>
 ) {
 	const { id, ...rest } = params;
-	highestZIndex.value += 1;
 
 	const windowWithId: MyWindow = Object.assign(
 		{
@@ -21,10 +21,12 @@ export function addWindow(
 			movable: true,
 			visible: true,
 			aktiv: true,
-			zIndex: highestZIndex.value
+			zIndex: highestZIndex.value + 1
 		},
 		rest
 	);
 
 	windows.push(windowWithId);
+
+	aktivWindow(windowWithId.id);
 }

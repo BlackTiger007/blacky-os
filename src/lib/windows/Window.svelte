@@ -30,7 +30,7 @@
 		!win.minimized && win.maximized ? 'fixed top-0 left-0 h-screen w-screen' : 'fixed'
 	}`}
 	class:hidden={!win.visible || win.minimized}
-	style="z-index: {win.aktiv ? 9998 : win.zIndex}; {!win.maximized && !win.minimized
+	style="z-index: {win.aktiv ? 9000 : win.zIndex}; {!win.maximized && !win.minimized
 		? `top: ${win.position.y}px; left: ${win.position.x}px; width: ${win.size.width}px; height: ${win.size.height}px;`
 		: ''}"
 	onmousedown={() => aktivWindow(win.id)}

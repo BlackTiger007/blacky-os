@@ -51,7 +51,7 @@
 	});
 </script>
 
-<nav class="bg-base-300 fixed bottom-0 z-[9999] flex h-14 w-full items-center justify-between p-2">
+<nav class="bg-base-300 fixed bottom-0 z-[9900] flex h-14 w-full items-center justify-between p-2">
 	<div
 		class="flex flex-1"
 		class:justify-start={ausrichtung === 'links'}

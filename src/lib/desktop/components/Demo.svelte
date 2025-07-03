@@ -6,7 +6,7 @@
 	}
 </script>
 
-<dialog id="demo" class="modal" {open}>
+<dialog id="demo" class="modal z-[9910]" {open}>
 	<div class="modal-box max-w-1/3 min-w-2xl">
 		<h3 class="text-lg font-bold">Blacky-OS Demo</h3>
 		<p class="py-4">

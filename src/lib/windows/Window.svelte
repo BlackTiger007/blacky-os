@@ -22,6 +22,8 @@
 </script>
 
 <div
+	role="button"
+	tabindex="0"
 	use:resizeWindow={{ id: win.id, enabled: !win.minimized && !win.maximized }}
 	class={`bg-base-200 flex flex-col rounded shadow-lg ${
 		!win.minimized && win.maximized ? 'fixed top-0 left-0 h-screen w-screen' : 'fixed'

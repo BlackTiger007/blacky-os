@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { minimizeWindow } from '$lib/windows/actions/minimizeWindow';
 	import { windows } from '../../windows/windowStore.svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import { addWindow } from '$lib/windows/actions/addWindow';
@@ -59,7 +60,9 @@
 	>
 		<button class="btn" onclick={addNewWindow}>New Window</button>
 		{#each windows as win (win.id)}
-			<button class="btn btn-square" onclick={() => aktivWindow(win.id)}>🗕</button>
+			<button class="btn btn-square" onclick={() => (minimizeWindow(win.id), aktivWindow(win.id))}>
+				🗕
+			</button>
 		{/each}
 	</div>
 

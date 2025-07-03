@@ -7,7 +7,7 @@
 	let open = $state(import.meta.env.PROD);
 </script>
 
-<div class="h-screen w-screen bg-cover bg-center">
+<div class="z-0 h-screen w-screen bg-cover bg-center">
 	{#each windows as win (win.id)}
 		<MyWindow {win} />
 	{/each}

@@ -24,10 +24,10 @@
 <div
 	use:resizeWindow={{ id: win.id, enabled: !win.minimized && !win.maximized }}
 	class={`bg-base-200 flex flex-col rounded shadow-lg ${
-		win.minimized ? 'hidden' : win.maximized ? 'fixed top-0 left-0 h-screen w-screen' : 'fixed'
+		!win.minimized && win.maximized ? 'fixed top-0 left-0 h-screen w-screen' : 'fixed'
 	}`}
-	class:hidden={!win.visible}
-	style={!win.maximized
+	class:hidden={!win.visible || win.minimized}
+	style={!win.maximized && !win.minimized
 		? `top: ${win.position.y}px; left: ${win.position.x}px; width: ${win.size.width}px; height: ${win.size.height}px;`
 		: ''}
 >

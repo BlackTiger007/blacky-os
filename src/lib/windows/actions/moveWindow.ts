@@ -1,4 +1,5 @@
 import type { Action } from 'svelte/action';
+import { windows } from '../windowStore.svelte';
 
 export const moveWindow: Action<HTMLDivElement, { id: string; enabled: boolean }> = (
 	node,
@@ -9,6 +10,8 @@ export const moveWindow: Action<HTMLDivElement, { id: string; enabled: boolean }
 	let startY = 0;
 	let initialLeft = 0;
 	let initialTop = 0;
+	let newLeft = 0;
+	let newTop = 0;
 
 	function onPointerDown(event: PointerEvent) {
 		if (!options.enabled) return;
@@ -37,27 +40,29 @@ export const moveWindow: Action<HTMLDivElement, { id: string; enabled: boolean }
 		const parent = node.parentElement as HTMLElement;
 		if (!parent) return;
 
-		// Bildschirmgrenzen inkl. Taskleistenhöhe
 		const screenWidth = window.innerWidth;
 		const screenHeight = window.innerHeight - 56;
 
-		// Neue Position berechnen
-		let newLeft = initialLeft + deltaX;
-		let newTop = initialTop + deltaY;
-
-		// Begrenzen
 		const rect = parent.getBoundingClientRect();
 		const width = rect.width;
 		const height = rect.height;
 
-		newLeft = Math.max(0, Math.min(newLeft, screenWidth - width));
-		newTop = Math.max(0, Math.min(newTop, screenHeight - height));
+		newLeft = Math.max(0, Math.min(initialLeft + deltaX, screenWidth - width));
+		newTop = Math.max(0, Math.min(initialTop + deltaY, screenHeight - height));
 
 		parent.style.left = `${newLeft}px`;
 		parent.style.top = `${newTop}px`;
 	}
 
 	function onPointerUp() {
+		if (!isDragging) return;
+
+		const win = windows.find((w) => w.id === options.id);
+		if (win) {
+			win.position.x = newLeft;
+			win.position.y = newTop;
+		}
+
 		isDragging = false;
 		document.removeEventListener('pointermove', onPointerMove);
 		document.removeEventListener('pointerup', onPointerUp);

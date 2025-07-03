@@ -4,7 +4,7 @@
 	import { windows } from '$lib/windows/windowStore.svelte';
 	import Demo from '$lib/desktop/components/Demo.svelte';
 
-	let open = $state(true);
+	let open = $state(import.meta.env.PROD);
 </script>
 
 <div class="h-screen w-screen bg-cover bg-center">

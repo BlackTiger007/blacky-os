@@ -63,7 +63,12 @@
 			<button
 				class="btn"
 				class:btn-active={win.aktiv}
-				onclick={() => (minimizeWindow(win.id), aktivWindow(win.id))}
+				onclick={() => {
+					if (win.aktiv || win.minimized) {
+						minimizeWindow(win.id);
+					}
+					aktivWindow(win.id);
+				}}
 			>
 				🗕
 			</button>
